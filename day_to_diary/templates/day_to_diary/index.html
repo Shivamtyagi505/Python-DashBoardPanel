@@ -1,0 +1,98 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dear Diary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" />
+</head>
+
+<body>
+    
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Online Crime Reporting
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <a href="{% url 'add' %}">Add Complaint</a>
+                    </div>
+                </div>
+            </article>
+            <br>
+            <button class="button is-danger" onclick="getLocation()">Alert</button>
+            <br>
+            <br>
+            
+            <form method="POST" action={% url 'home' %}>
+                {% csrf_token %}
+                <input type="text" id="location" value="" name="location" size="50" required="">
+                <button type="submit" onClick="Warn();">Share location</button>
+              </form>
+              <br>
+              <br>
+
+
+
+            {% for a in inputs %}
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>{{ a.date_posted }}</strong>
+                                <br>
+                                {{ a.report }}
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+
+        </div>
+
+    </section>
+    <footer class="footer">
+    </footer>
+
+    <script>
+        function Warn(){
+            var a=document.getElementById("location").value
+            var n=a.length
+            if(n>5){
+            alert("Location is successfully shared.")
+            }
+        }
+        output=document.getElementById('myText');
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } 
+        }
+        
+          function showPosition(position) {
+          var lat= position.coords.latitude;
+          var long=position.coords.longitude;
+          var kl = "Latitude: " + lat + " "+
+          "Longitude: " + long; 
+          document.getElementById('location').value=kl
+        }
+        
+    </script>
+        
+</body>
+
+
+</html>
